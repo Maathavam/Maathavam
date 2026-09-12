@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import FloatingTamilLetters from "@/components/FloatingTamilLetters";
+import SplashScreen from "@/components/SplashScreen";
 
 const balooThambi = Baloo_Thambi_2({
   subsets: ["latin", "tamil"],
@@ -51,6 +52,7 @@ export default function RootLayout({
     <html lang="ta" className={`${balooThambi.variable} ${poppins.variable}`}>
       <body className="font-body bg-cream text-ink page-wrapper">
         <LanguageProvider>
+          <SplashScreen />
           <FloatingTamilLetters />
           <Navbar />
           <main className="flex-1">{children}</main>

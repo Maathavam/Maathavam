@@ -145,21 +145,26 @@ function LangToggle({ lang, toggle, compact = false }: { lang: "ta" | "en"; togg
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       aria-label={isTamil ? "Switch to English" : "தமிழுக்கு மாறு"}
-      className={`relative flex items-center rounded-full border border-gold/40 bg-maroon/60 hover:bg-maroon hover:border-gold transition-all duration-300 ${
+      className={`relative flex items-center rounded-full border border-gold/40 bg-maroon/60 hover:bg-maroon hover:border-gold transition-all duration-300 overflow-hidden ${
         compact ? "px-2 py-1 gap-1 text-[11px]" : "px-3 py-1.5 gap-2 text-xs"
       }`}
     >
       {/* Sliding pill indicator */}
       <motion.span
-        layout
-        className="absolute inset-y-0.5 w-[44%] rounded-full bg-gold"
-        animate={{ left: isTamil ? "2px" : "54%" }}
+        className="absolute top-0.5 bottom-0.5 rounded-full bg-gold"
+        animate={isTamil
+          ? { left: "2px",          right: "52%" }
+          : { left: "52%",          right: "2px" }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
       />
-      <span className={`relative z-10 font-body font-semibold transition-colors duration-200 ${isTamil ? "text-maroon-dark" : "text-cream-dark/70"}`}>
+      <span className={`relative z-10 font-display font-bold transition-colors duration-200 min-w-[2.6rem] text-center ${
+        isTamil ? "text-maroon-dark" : "text-cream/70"
+      }`}>
         தமிழ்
       </span>
-      <span className={`relative z-10 font-body font-semibold transition-colors duration-200 ${!isTamil ? "text-maroon-dark" : "text-cream-dark/70"}`}>
+      <span className={`relative z-10 font-body font-bold transition-colors duration-200 min-w-[1.6rem] text-center ${
+        !isTamil ? "text-maroon-dark" : "text-cream/70"
+      }`}>
         EN
       </span>
     </motion.button>
