@@ -83,14 +83,14 @@ Tamil is one of the world's oldest living languages — over 2,500 years old —
     },
     images: {
       ta: [
-        { src: "/images/about/heritage.jpg",   caption: "இலக்கிய பாரம்பரியம் — 2,500 ஆண்டு இலக்கிய மரபு" },
-        { src: "/images/about/activities.jpg",  caption: "கலாச்சார நடவடிக்கைகள் — வளாகத்தில் கலாச்சார நிகழ்வுகள்" },
-        { src: "/images/about/campus.jpg",      caption: "நம் வளாகம் — எங்கள் துடிப்பான வளாக சமூகம்" },
+        { src: "/images/about/three-kingdoms.jpg", caption: "மூன்று தமிழ் அரசுகள் — சோழர், சேரர், பாண்டியர்" },
+        { src: "/images/about/five-lands.jpg",      caption: "ஐந்திணை — குறிஞ்சி, முல்லை, மருதம், நெய்தல், பாலை" },
+        { src: "/images/about/muthamizh.jpg",       caption: "முத்தமிழ் — இயல், இசை, நாடகம்" },
       ],
       en: [
-        { src: "/images/about/heritage.jpg",   caption: "Literary Heritage — A 2,500-year literary tradition" },
-        { src: "/images/about/activities.jpg",  caption: "Cultural Activities — Events on our campus" },
-        { src: "/images/about/campus.jpg",      caption: "Our Campus — Our vibrant campus community" },
+        { src: "/images/about/three-kingdoms.jpg", caption: "Three Tamil Kingdoms — Chola, Chera, Pandya" },
+        { src: "/images/about/five-lands.jpg",      caption: "Five Lands (Ainthinai) — Kurinji, Mullai, Marudham, Neidhal, Paalai" },
+        { src: "/images/about/muthamizh.jpg",       caption: "Muthamizh — Iyal, Isai, Nadagam" },
       ],
     },
   },

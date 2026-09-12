@@ -40,23 +40,19 @@ export default function AboutPage() {
         </div>
       </SectionWrapper>
 
-      {/* Three images */}
+      {/* Three circular images — no box, no caption */}
       <SectionWrapper className="bg-cream-dark py-16 px-4 sm:px-6 lg:px-8" id="about-images">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10">
-            <h2 className="section-heading">{t(c.gallery, lang)}</h2>
-            <div className="gold-divider" />
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-10 md:gap-16">
             {images.map((img, i) => (
-              <div key={i} className="card-base group overflow-hidden" id={`about-image-${i + 1}`}>
-                <div className="relative w-full h-56 sm:h-64 md:h-72 overflow-hidden">
-                  <Image src={img.src} alt={img.caption} fill className="object-cover transition-transform duration-500 group-hover:scale-105" sizes="(max-width: 640px) 100vw, 33vw" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-maroon-dark/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-                <div className="p-4 bg-cream">
-                  <p className="font-display text-sm text-maroon font-semibold leading-snug">{img.caption}</p>
-                </div>
+              <div key={i} className="relative w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden flex-shrink-0" id={`about-image-${i + 1}`}>
+                <Image
+                  src={img.src}
+                  alt={img.caption}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 224px, 288px"
+                />
               </div>
             ))}
           </div>
