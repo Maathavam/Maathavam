@@ -24,7 +24,7 @@ export default function HomePage() {
   const c = content.home;
 
   return (
-    <div className="flex flex-col pt-16 md:pt-20">
+    <div className="flex flex-col">
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <section id="hero" className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse at top, #8B2A3E 0%, #6B1A2A 45%, #4A0F1C 100%)" }}>
