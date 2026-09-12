@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import SectionWrapper from "@/components/SectionWrapper";
 import Carousel from "@/components/Carousel";
-import QuoteRotator from "@/components/QuoteRotator";
+import InlineQuote from "@/components/InlineQuote";
 import ContactBlock from "@/components/ContactBlock";
 import { carouselSlides } from "@/data/carousel";
 import { quotes } from "@/data/quotes";
@@ -96,18 +96,7 @@ export default function HomePage() {
             <div className="gold-divider" />
           </div>
           <Carousel slides={carouselSlides} lang={lang} />
-        </div>
-      </SectionWrapper>
-
-      {/* ── Quotes ───────────────────────────────────────────────────────── */}
-      <SectionWrapper className="bg-cream-dark kolam-bg py-20 px-4 sm:px-6" id="quotes-section">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="section-heading">{t(content.quotesSection.heading, lang)}</h2>
-            <p className="font-display text-maroon/60 mt-2">{t(content.quotesSection.sub, lang)}</p>
-            <div className="gold-divider" />
-          </div>
-          <QuoteRotator quotes={quotes} />
+          <InlineQuote quotes={quotes} />
         </div>
       </SectionWrapper>
 
