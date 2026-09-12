@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import SectionWrapper from "@/components/SectionWrapper";
 import Carousel from "@/components/Carousel";
 import InlineQuote from "@/components/InlineQuote";
 import ContactBlock from "@/components/ContactBlock";
+import HeroKolam from "@/components/HeroKolam";
 import { carouselSlides } from "@/data/carousel";
 import { quotes } from "@/data/quotes";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -22,6 +23,9 @@ const quickNavLinks = [
 export default function HomePage() {
   const { lang } = useLanguage();
   const c = content.home;
+  const { scrollY } = useScroll();
+  const heroY = useTransform(scrollY, [0, 500], [0, 80]);
+  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
 
   return (
     <div className="flex flex-col">
@@ -30,6 +34,7 @@ export default function HomePage() {
       <section id="hero" className="relative min-h-[90vh] flex flex-col items-center justify-center overflow-hidden" style={{ background: "radial-gradient(ellipse at top, #8B2A3E 0%, #6B1A2A 45%, #4A0F1C 100%)" }}>
         <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9922A' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold/5 blur-3xl pointer-events-none" />
+
 
         <div className="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-6xl mx-auto">
           {/* Logo row */}
@@ -40,11 +45,27 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: "easeOut", delay: 0.1 }} className="flex flex-col items-center">
-              <h1 id="hero-heading" className="font-display font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gold-light tracking-wide leading-none" style={{ textShadow: "0 0 40px rgba(201,146,42,0.3)" }}>
+            {/* Title with rectangular kolam frame around it */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
+              className="relative flex flex-col items-center py-8 px-10"
+            >
+              {/* Kolam frame — wraps only this title block */}
+              <HeroKolam />
+
+              <h1
+                id="hero-heading"
+                className="relative z-10 font-display font-bold text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gold-light tracking-widest leading-none"
+                style={{
+                  textShadow: "0 0 30px rgba(232,184,75,0.6), 0 0 80px rgba(201,146,42,0.3), 0 4px 20px rgba(0,0,0,0.4)",
+                  WebkitTextStroke: "1px rgba(232,184,75,0.3)",
+                }}
+              >
                 மாதவம்
               </h1>
-              <p className="font-body text-base sm:text-lg md:text-xl text-cream-dark/80 tracking-widest mt-2 uppercase">MAATHAVAM</p>
+              <p className="relative z-10 font-body text-sm sm:text-base md:text-lg text-cream/50 tracking-[0.4em] mt-3 uppercase">MAATHAVAM</p>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, x: 50, rotate: 10 }} animate={{ opacity: 1, x: 0, rotate: 0 }} transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }} className="animate-float" style={{ animationDelay: "1.5s" }}>

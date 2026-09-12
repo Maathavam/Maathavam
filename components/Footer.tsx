@@ -29,8 +29,30 @@ export default function Footer() {
   const c = content.footer;
 
   return (
-    <footer className="bg-maroon-dark text-cream-dark" role="contentinfo">
-      <div className="h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-60" />
+    <footer className="relative bg-maroon-dark text-cream-dark" role="contentinfo">
+      {/* Animated SVG wave top border */}
+      <div className="overflow-hidden leading-none">
+        <svg
+          viewBox="0 0 1440 64"
+          preserveAspectRatio="none"
+          className="w-full h-12 md:h-16 block"
+          style={{ marginBottom: "-2px" }}
+        >
+          <motion.path
+            d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z"
+            fill="#4A0F1C"
+            animate={{
+              d: [
+                "M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z",
+                "M0,20 C240,0 480,56 720,20 C960,0 1200,56 1440,20 L1440,64 L0,64 Z",
+                "M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z",
+              ],
+            }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </svg>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
 

@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import FloatingTamilLetters from "@/components/FloatingTamilLetters";
 import SplashScreen from "@/components/SplashScreen";
+import PageTransition from "@/components/PageTransition";
 
 const balooThambi = Baloo_Thambi_2({
   subsets: ["latin", "tamil"],
@@ -55,7 +56,9 @@ export default function RootLayout({
           <SplashScreen />
           <FloatingTamilLetters />
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <Footer />
         </LanguageProvider>
       </body>

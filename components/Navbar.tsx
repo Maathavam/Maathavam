@@ -64,9 +64,17 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 id={`nav-${link.key}`}
-                className={`nav-link font-body text-sm uppercase tracking-wider ${pathname === link.href ? "active" : ""}`}
+                className={`nav-link font-body text-sm uppercase tracking-wider relative ${pathname === link.href ? "active" : ""}`}
               >
                 {t(content.nav[link.key], lang)}
+                {pathname === link.href && (
+                  <motion.span
+                    layoutId="nav-active-dot"
+                    className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-gold"
+                    style={{ boxShadow: "0 0 6px #E8B84B" }}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
               </Link>
             ))}
 

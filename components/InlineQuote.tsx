@@ -1,55 +1,70 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Quote } from "@/data/quotes";
 
 interface InlineQuoteProps {
   quotes: Quote[];
-  intervalMs?: number;
+  charDelayMs?: number;
 }
 
-export default function InlineQuote({ quotes, intervalMs = 5000 }: InlineQuoteProps) {
+export default function InlineQuote({ quotes, charDelayMs = 38 }: InlineQuoteProps) {
   const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(1);
+  const [displayed, setDisplayed] = useState("");
+  const [typing, setTyping] = useState(true);
+  const [showCursor, setShowCursor] = useState(true);
 
-  const goNext = useCallback(() => {
-    setDirection(1);
-    setCurrent((prev) => (prev + 1) % quotes.length);
-  }, [quotes.length]);
+  const fullText = `"${quotes[current].text}"`;
 
+  // Typewriter: type out
   useEffect(() => {
-    const timer = setInterval(goNext, intervalMs);
-    return () => clearInterval(timer);
-  }, [goNext, intervalMs]);
+    if (!typing) return;
+    if (displayed.length >= fullText.length) {
+      setTyping(false);
+      return;
+    }
+    const t = setTimeout(() => setDisplayed(fullText.slice(0, displayed.length + 1)), charDelayMs);
+    return () => clearTimeout(t);
+  }, [displayed, typing, fullText, charDelayMs]);
 
-  const variants = {
-    enter: (dir: number) => ({ y: dir > 0 ? 16 : -16, opacity: 0 }),
-    center: { y: 0, opacity: 1 },
-    exit:  (dir: number) => ({ y: dir > 0 ? -16 : 16, opacity: 0 }),
-  };
+  // After full text shown, wait then erase
+  useEffect(() => {
+    if (typing) return;
+    const hold = setTimeout(() => {
+      // erase
+      const erase = setInterval(() => {
+        setDisplayed((prev) => {
+          if (prev.length <= 0) {
+            clearInterval(erase);
+            setCurrent((c) => (c + 1) % quotes.length);
+            setTyping(true);
+            return "";
+          }
+          return prev.slice(0, -1);
+        });
+      }, 18);
+      return () => clearInterval(erase);
+    }, 2800);
+    return () => clearTimeout(hold);
+  }, [typing, quotes.length]);
+
+  // Blinking cursor
+  useEffect(() => {
+    const t = setInterval(() => setShowCursor((v) => !v), 530);
+    return () => clearInterval(t);
+  }, []);
 
   return (
-    <div className="mt-8 text-center min-h-[56px] flex items-center justify-center px-4">
-      <AnimatePresence mode="wait" custom={direction}>
-        <motion.p
-          key={current}
-          custom={direction}
-          variants={variants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="font-display text-base md:text-xl text-maroon/80 italic leading-relaxed"
-        >
-          &ldquo;{quotes[current].text}&rdquo;
-          {quotes[current].author && (
-            <span className="not-italic text-gold font-body text-sm md:text-base ml-2">
-              — {quotes[current].author}
-            </span>
-          )}
-        </motion.p>
-      </AnimatePresence>
+    <div className="mt-8 text-center min-h-[60px] flex flex-col items-center justify-center px-4">
+      <p className="font-display text-base md:text-xl text-maroon/80 italic leading-relaxed">
+        {displayed}
+        <span className={`inline-block w-0.5 h-5 bg-gold ml-0.5 align-middle transition-opacity duration-100 ${showCursor ? "opacity-100" : "opacity-0"}`} />
+      </p>
+      {!typing && quotes[current].author && (
+        <span className="text-gold font-body text-sm mt-1 block">
+          — {quotes[current].author}
+        </span>
+      )}
     </div>
   );
 }

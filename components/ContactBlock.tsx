@@ -59,6 +59,10 @@ export default function ContactBlock() {
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
                   <div className="absolute inset-0 bg-maroon/0 group-hover:bg-maroon/10 transition-colors duration-300" />
+                  {/* Shimmer sweep */}
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/15 to-transparent skew-x-12" />
+                  </div>
                 </div>
                 <div className="p-3 md:p-4">
                   <p className="font-display font-semibold text-maroon text-sm md:text-base leading-tight">
