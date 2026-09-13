@@ -34,30 +34,18 @@ export default function HomePage() {
 
         <div className="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-6xl mx-auto">
 
-          {/* ── Mobile: single logo above title ── */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            className="sm:hidden mb-5 animate-float"
-          >
-            <div className="relative w-20 h-20 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
-              <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover" sizes="80px" priority />
-            </div>
-          </motion.div>
+          {/* ── Logos + Title row (all screen sizes) ── */}
+          <div className="flex items-center justify-center gap-2 sm:gap-8 md:gap-12 mb-6 w-full px-2">
 
-          {/* ── Desktop: logos + title in a row ── */}
-          <div className="flex items-center justify-center gap-4 sm:gap-8 md:gap-12 mb-6 w-full">
-
-            {/* Left logo — hidden on mobile */}
+            {/* Left logo */}
             <motion.div
               initial={{ opacity: 0, x: -50, rotate: -10 }}
               animate={{ opacity: 1, x: 0, rotate: 0 }}
               transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-              className="hidden sm:block animate-float flex-shrink-0"
+              className="animate-float flex-shrink-0"
             >
-              <div className="relative w-24 h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
-                <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover" sizes="176px" priority />
+              <div className="relative w-14 h-14 sm:w-24 sm:h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
+                <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover" sizes="(max-width:640px) 56px, (max-width:768px) 96px, 176px" priority />
               </div>
             </motion.div>
 
@@ -66,12 +54,12 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
-              className="relative flex flex-col items-center py-5 px-4 sm:py-8 sm:px-10 flex-shrink min-w-0"
+              className="relative flex flex-col items-center py-3 px-2 sm:py-8 sm:px-10 flex-shrink min-w-0"
             >
               <HeroKolam />
               <h1
                 id="hero-heading"
-                className="relative z-10 font-display font-bold text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gold-light tracking-widest leading-none"
+                className="relative z-10 font-display font-bold text-4xl sm:text-6xl md:text-8xl lg:text-9xl text-gold-light tracking-wider sm:tracking-widest leading-none"
                 style={{
                   textShadow: "0 0 30px rgba(232,184,75,0.6), 0 0 80px rgba(201,146,42,0.3), 0 4px 20px rgba(0,0,0,0.4)",
                   WebkitTextStroke: "1px rgba(232,184,75,0.3)",
@@ -79,19 +67,19 @@ export default function HomePage() {
               >
                 மாதவம்
               </h1>
-              <p className="relative z-10 font-body text-sm sm:text-base md:text-lg text-cream/50 tracking-[0.3em] sm:tracking-[0.4em] mt-3 uppercase">MAATHAVAM</p>
+              <p className="relative z-10 font-body text-[10px] sm:text-base md:text-lg text-cream/50 tracking-[0.2em] sm:tracking-[0.4em] mt-2 sm:mt-3 uppercase">MAATHAVAM</p>
             </motion.div>
 
-            {/* Right logo — hidden on mobile */}
+            {/* Right logo */}
             <motion.div
               initial={{ opacity: 0, x: 50, rotate: 10 }}
               animate={{ opacity: 1, x: 0, rotate: 0 }}
               transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-              className="hidden sm:block animate-float flex-shrink-0"
+              className="animate-float flex-shrink-0"
               style={{ animationDelay: "1.5s" }}
             >
-              <div className="relative w-24 h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
-                <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover scale-x-[-1]" sizes="176px" priority />
+              <div className="relative w-14 h-14 sm:w-24 sm:h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
+                <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover scale-x-[-1]" sizes="(max-width:640px) 56px, (max-width:768px) 96px, 176px" priority />
               </div>
             </motion.div>
           </div>
