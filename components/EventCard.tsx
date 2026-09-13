@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { motion } from "framer-motion";
 import { CalendarDays, ArrowRight } from "lucide-react";
 import { Event } from "@/data/events";

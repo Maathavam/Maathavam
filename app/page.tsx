@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import SectionWrapper from "@/components/SectionWrapper";
 import Carousel from "@/components/Carousel";
@@ -23,9 +23,6 @@ const quickNavLinks = [
 export default function HomePage() {
   const { lang } = useLanguage();
   const c = content.home;
-  const { scrollY } = useScroll();
-  const heroY = useTransform(scrollY, [0, 500], [0, 80]);
-  const heroOpacity = useTransform(scrollY, [0, 400], [1, 0.3]);
 
   return (
     <div className="flex flex-col">
