@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import FloatingTamilLetters from "@/components/FloatingTamilLetters";
 import SplashScreen from "@/components/SplashScreen";
 import PageTransition from "@/components/PageTransition";
+import ChatWidget from "@/components/ChatWidget";
 
 const balooThambi = Baloo_Thambi_2({
   subsets: ["latin", "tamil"],
@@ -60,6 +61,7 @@ export default function RootLayout({
             <PageTransition>{children}</PageTransition>
           </main>
           <Footer />
+          <ChatWidget />
         </LanguageProvider>
       </body>
     </html>
