@@ -63,6 +63,12 @@ export default function EventsPage() {
               நிகழ்வுகளை ஏற்றுகிறது… Loading events…
             </p>
           )}
+          {!loading && allEvents.length === 0 && (
+            <div className="text-center py-20">
+              <p className="font-display text-2xl text-maroon/40 mb-2">நிகழ்வுகள் எதுவும் இல்லை</p>
+              <p className="font-body text-ink-light text-sm">No events have been added yet. Check back soon!</p>
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {allEvents.map((event, i) => (
               <EventCard key={event.id} event={event} index={i} />
