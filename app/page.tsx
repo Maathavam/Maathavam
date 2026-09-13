@@ -45,7 +45,7 @@ export default function HomePage() {
               className="animate-float flex-shrink-0"
             >
               <div className="relative w-14 h-14 sm:w-24 sm:h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
-                <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover" sizes="(max-width:640px) 56px, (max-width:768px) 96px, 176px" priority />
+                <Image src="/images/logo_engum_tamil.jpg" alt="எங்கும் தமிழ்" fill className="object-cover" sizes="(max-width:640px) 56px, (max-width:768px) 96px, 176px" priority />
               </div>
             </motion.div>
 
@@ -79,7 +79,7 @@ export default function HomePage() {
               style={{ animationDelay: "1.5s" }}
             >
               <div className="relative w-14 h-14 sm:w-24 sm:h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
-                <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover scale-x-[-1]" sizes="(max-width:640px) 56px, (max-width:768px) 96px, 176px" priority />
+                <Image src="/images/logo_endrum_tamil.jpg" alt="என்றும் தமிழ்" fill className="object-cover" sizes="(max-width:640px) 56px, (max-width:768px) 96px, 176px" priority />
               </div>
             </motion.div>
           </div>
