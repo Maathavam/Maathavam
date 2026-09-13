@@ -32,26 +32,43 @@ export default function HomePage() {
         <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9922A' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold/5 blur-3xl pointer-events-none" />
 
-
         <div className="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-6xl mx-auto">
-          {/* Logo row */}
-          <div className="flex items-center justify-center gap-6 md:gap-12 mb-6">
-            <motion.div initial={{ opacity: 0, x: -50, rotate: -10 }} animate={{ opacity: 1, x: 0, rotate: 0 }} transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }} className="animate-float">
+
+          {/* ── Mobile: single logo above title ── */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            className="sm:hidden mb-5 animate-float"
+          >
+            <div className="relative w-20 h-20 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
+              <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover" sizes="80px" priority />
+            </div>
+          </motion.div>
+
+          {/* ── Desktop: logos + title in a row ── */}
+          <div className="flex items-center justify-center gap-4 sm:gap-8 md:gap-12 mb-6 w-full">
+
+            {/* Left logo — hidden on mobile */}
+            <motion.div
+              initial={{ opacity: 0, x: -50, rotate: -10 }}
+              animate={{ opacity: 1, x: 0, rotate: 0 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+              className="hidden sm:block animate-float flex-shrink-0"
+            >
               <div className="relative w-24 h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
                 <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover" sizes="176px" priority />
               </div>
             </motion.div>
 
-            {/* Title with rectangular kolam frame around it */}
+            {/* Title with rectangular kolam frame */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut", delay: 0.1 }}
-              className="relative flex flex-col items-center py-8 px-10"
+              className="relative flex flex-col items-center py-5 px-4 sm:py-8 sm:px-10 flex-shrink min-w-0"
             >
-              {/* Kolam frame — wraps only this title block */}
               <HeroKolam />
-
               <h1
                 id="hero-heading"
                 className="relative z-10 font-display font-bold text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-gold-light tracking-widest leading-none"
@@ -62,17 +79,29 @@ export default function HomePage() {
               >
                 மாதவம்
               </h1>
-              <p className="relative z-10 font-body text-sm sm:text-base md:text-lg text-cream/50 tracking-[0.4em] mt-3 uppercase">MAATHAVAM</p>
+              <p className="relative z-10 font-body text-sm sm:text-base md:text-lg text-cream/50 tracking-[0.3em] sm:tracking-[0.4em] mt-3 uppercase">MAATHAVAM</p>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, x: 50, rotate: 10 }} animate={{ opacity: 1, x: 0, rotate: 0 }} transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }} className="animate-float" style={{ animationDelay: "1.5s" }}>
+            {/* Right logo — hidden on mobile */}
+            <motion.div
+              initial={{ opacity: 0, x: 50, rotate: 10 }}
+              animate={{ opacity: 1, x: 0, rotate: 0 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+              className="hidden sm:block animate-float flex-shrink-0"
+              style={{ animationDelay: "1.5s" }}
+            >
               <div className="relative w-24 h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 rounded-full border-2 border-gold/40 overflow-hidden shadow-gold-glow">
                 <Image src="/images/logo.jpg" alt="மாதவம் சின்னம்" fill className="object-cover scale-x-[-1]" sizes="176px" priority />
               </div>
             </motion.div>
           </div>
 
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }} className="font-display text-lg md:text-2xl text-cream-dark/80 mt-2 mb-10 tracking-wide">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+            className="font-display text-base sm:text-lg md:text-2xl text-cream-dark/80 mt-2 mb-10 tracking-wide px-4"
+          >
             {t(c.heroTagline, lang)}
           </motion.p>
           <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.7 }} className="gold-divider" />
