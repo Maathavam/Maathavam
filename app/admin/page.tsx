@@ -307,7 +307,7 @@ export default function AdminPage() {
 
               {/* Names */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="நிகழ்வு பெயர்" sublabel="English *">
+                <Field label="Event Name" sublabel="English *">
                   <input required value={form.name} onChange={(e) => set("name", e.target.value)}
                     placeholder="e.g. Pongal Vizha" className={inputCls} />
                 </Field>
@@ -325,11 +325,11 @@ export default function AdminPage() {
 
               {/* Dates */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="தேதி" sublabel="English date">
+                <Field label="Date" sublabel="English">
                   <input value={form.date} onChange={(e) => set("date", e.target.value)}
                     placeholder="e.g. January 14, 2026" className={inputCls} />
                 </Field>
-                <Field label="தேதி" sublabel="Tamil date">
+                <Field label="தேதி" sublabel="Tamil">
                   <input value={form.date_tamil} onChange={(e) => set("date_tamil", e.target.value)}
                     placeholder="எ.கா. ஜனவரி 14, 2026" className={inputCls} />
                 </Field>
@@ -337,23 +337,23 @@ export default function AdminPage() {
 
               {/* Short Description */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Field label="சுருக்கம்" sublabel="Short description · English">
+                <Field label="Short Description" sublabel="English">
                   <textarea value={form.description} onChange={(e) => set("description", e.target.value)}
                     placeholder="A brief one-line description..." className={textareaCls} rows={3} />
                 </Field>
-                <Field label="சுருக்கம்" sublabel="Short description · Tamil">
+                <Field label="சுருக்கம்" sublabel="Tamil">
                   <textarea value={form.description_tamil} onChange={(e) => set("description_tamil", e.target.value)}
                     placeholder="சுருக்கமான விவரணம்..." className={textareaCls} rows={3} />
                 </Field>
               </div>
 
               {/* Full Details */}
-              <Field label="முழு விவரம்" sublabel="Full details · English (shown on event detail page)">
+              <Field label="Full Details" sublabel="English — shown on event detail page">
                 <textarea value={form.details} onChange={(e) => set("details", e.target.value)}
                   placeholder={"Describe the event in full...\n• Sub-event 1\n• Sub-event 2"}
                   className={textareaCls} rows={6} />
               </Field>
-              <Field label="முழு விவரம்" sublabel="Full details · Tamil">
+              <Field label="முழு விவரம்" sublabel="Tamil">
                 <textarea value={form.details_tamil} onChange={(e) => set("details_tamil", e.target.value)}
                   placeholder={"நிகழ்வை விரிவாக விவரிக்கவும்...\n• துணை நிகழ்வு 1\n• துணை நிகழ்வு 2"}
                   className={textareaCls} rows={6} />
