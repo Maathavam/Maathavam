@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, Plus, Trash2, CheckCircle, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Upload, Plus, Trash2, CheckCircle, AlertCircle, Eye, EyeOff, Pencil, X } from "lucide-react";
 import { DbEvent } from "@/lib/supabase";
 
 // ── Utility ───────────────────────────────────────────────────────────────────
@@ -56,6 +56,7 @@ export default function AdminPage() {
   const [toast, setToast] = useState<{ type: "success" | "error"; msg: string } | null>(null);
   const [events, setEvents] = useState<DbEvent[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   // ── Auth ──────────────────────────────────────────────────────────────────
@@ -123,7 +124,34 @@ export default function AdminPage() {
     return json.url as string;
   }
 
-  // ── Submit ────────────────────────────────────────────────────────────────
+  // ── Edit: populate form with existing event ───────────────────────────────
+  function handleEdit(ev: DbEvent) {
+    setEditingId(ev.id);
+    setForm({
+      name: ev.name,
+      name_tamil: ev.name_tamil,
+      slug: ev.slug,
+      description: ev.description ?? "",
+      description_tamil: ev.description_tamil ?? "",
+      date: ev.date ?? "",
+      date_tamil: ev.date_tamil ?? "",
+      details: ev.details ?? "",
+      details_tamil: ev.details_tamil ?? "",
+      image_url: ev.image_url ?? "",
+    });
+    setImageFile(null);
+    setImagePreview("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setForm({ name: "", name_tamil: "", slug: "", description: "", description_tamil: "", date: "", date_tamil: "", details: "", details_tamil: "", image_url: "" });
+    setImageFile(null);
+    setImagePreview("");
+  }
+
+  // ── Submit (Add or Update) ─────────────────────────────────────────────────
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!form.name || !form.name_tamil) {
@@ -134,8 +162,13 @@ export default function AdminPage() {
       setSubmitting(true);
       const imageUrl = await uploadImage();
       const payload = { ...form, image_url: imageUrl };
-      const res = await fetch("/api/events", {
-        method: "POST",
+
+      const isEditing = !!editingId;
+      const url = isEditing ? `/api/events?id=${editingId}` : "/api/events";
+      const method = isEditing ? "PATCH" : "POST";
+
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json", "x-admin-secret": secretInput },
         body: JSON.stringify(payload),
       });
@@ -143,7 +176,11 @@ export default function AdminPage() {
         const j = await res.json();
         throw new Error(j.error ?? "Failed");
       }
-      showToast("success", "நிகழ்வு சேர்க்கப்பட்டது! Event added successfully.");
+      showToast("success", isEditing
+        ? "நிகழ்வு புதுப்பிக்கப்பட்டது! Event updated successfully."
+        : "நிகழ்வு சேர்க்கப்பட்டது! Event added successfully."
+      );
+      setEditingId(null);
       setForm({ name: "", name_tamil: "", slug: "", description: "", description_tamil: "", date: "", date_tamil: "", details: "", details_tamil: "", image_url: "" });
       setImageFile(null);
       setImagePreview("");
@@ -218,12 +255,19 @@ export default function AdminPage() {
 
       <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-5 gap-10">
 
-        {/* ── Add Event Form ─────────────────────────────────────────────── */}
+        {/* ── Add / Edit Event Form ──────────────────────────────────────── */}
         <div className="lg:col-span-3">
-          <div className="bg-white rounded-3xl shadow-card p-6 md:p-8">
-            <h2 className="font-display text-xl font-bold text-maroon mb-6 flex items-center gap-2">
-              <Plus size={20} /> புதிய நிகழ்வு சேர் · Add New Event
-            </h2>
+          <div className={`bg-white rounded-3xl shadow-card p-6 md:p-8 ${editingId ? "ring-2 ring-gold/60" : ""}`}>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="font-display text-xl font-bold text-maroon flex items-center gap-2">
+                {editingId ? <><Pencil size={20} /> நிகழ்வை திருத்து · Edit Event</> : <><Plus size={20} /> புதிய நிகழ்வு சேர் · Add New Event</>}
+              </h2>
+              {editingId && (
+                <button onClick={cancelEdit} className="flex items-center gap-1 text-xs text-ink-light hover:text-red-500 font-body transition-colors">
+                  <X size={14} /> Cancel Edit
+                </button>
+              )}
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
 
@@ -320,10 +364,16 @@ export default function AdminPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 disabled={submitting || uploading}
-                className="w-full bg-maroon text-cream-dark font-display font-bold text-lg py-3.5 rounded-2xl hover:bg-maroon-dark disabled:opacity-50 transition-all duration-200 flex items-center justify-center gap-2 shadow-maroon-glow"
+                className={`w-full font-display font-bold text-lg py-3.5 rounded-2xl disabled:opacity-50 transition-all duration-200 flex items-center justify-center gap-2 text-cream-dark ${
+                  editingId
+                    ? "bg-gold hover:bg-gold/80 shadow-gold-glow"
+                    : "bg-maroon hover:bg-maroon-dark shadow-maroon-glow"
+                }`}
               >
                 {submitting ? (
-                  <span className="animate-pulse">சேர்க்கிறது... Adding...</span>
+                  <span className="animate-pulse">{editingId ? "புதுப்பிக்கிறது... Updating..." : "சேர்க்கிறது... Adding..."}</span>
+                ) : editingId ? (
+                  <><Pencil size={20} /> நிகழ்வை புதுப்பி · Update Event</>
                 ) : (
                   <><Plus size={20} /> நிகழ்வை சேர் · Add Event</>
                 )}
@@ -345,7 +395,11 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
                 {events.map((ev) => (
-                  <div key={ev.id} className="flex items-start gap-3 p-3 rounded-xl bg-cream-dark border border-cream-deeper">
+                  <div key={ev.id} className={`flex items-start gap-3 p-3 rounded-xl border transition-colors duration-200 ${
+                    editingId === ev.id
+                      ? "bg-gold/10 border-gold/40"
+                      : "bg-cream-dark border-cream-deeper"
+                  }`}>
                     {ev.image_url && (
                       <div className="relative w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
                         <Image src={ev.image_url} alt={ev.name} fill className="object-cover" />
@@ -356,10 +410,18 @@ export default function AdminPage() {
                       <p className="font-display text-ink-light text-xs truncate">{ev.name_tamil}</p>
                       {ev.date && <p className="font-body text-xs text-gold mt-0.5">{ev.date}</p>}
                     </div>
-                    <button onClick={() => handleDelete(ev.id)}
-                      className="text-red-400 hover:text-red-600 transition-colors duration-200 flex-shrink-0 mt-0.5">
-                      <Trash2 size={16} />
-                    </button>
+                    <div className="flex flex-col gap-1.5 flex-shrink-0">
+                      <button onClick={() => handleEdit(ev)}
+                        title="Edit"
+                        className="text-gold hover:text-gold/70 transition-colors duration-200">
+                        <Pencil size={15} />
+                      </button>
+                      <button onClick={() => handleDelete(ev.id)}
+                        title="Delete"
+                        className="text-red-400 hover:text-red-600 transition-colors duration-200">
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>

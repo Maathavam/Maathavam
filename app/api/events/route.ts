@@ -43,6 +43,28 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ event: data }, { status: 201 });
 }
 
+// PATCH /api/events?id=xxx — update an event
+export async function PATCH(req: NextRequest) {
+  const secret = req.headers.get("x-admin-secret");
+  if (secret !== process.env.ADMIN_SECRET) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const id = req.nextUrl.searchParams.get("id");
+  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+
+  const body = await req.json();
+  const supabase = getServiceClient();
+  const { data, error } = await supabase
+    .from("events")
+    .update(body)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ event: data });
+}
+
 // DELETE /api/events?id=xxx — delete an event
 export async function DELETE(req: NextRequest) {
   const secret = req.headers.get("x-admin-secret");

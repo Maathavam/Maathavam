@@ -1,10 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CalendarDays, ArrowLeft } from "lucide-react";
-import { events } from "@/data/events";
+import { events as staticEvents, Event } from "@/data/events";
+import { DbEvent } from "@/lib/supabase";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { content, t } from "@/data/content";
 
@@ -12,12 +14,62 @@ interface Params {
   params: { id: string };
 }
 
-export default function EventDetailPage({ params }: Params) {
-  const event = events.find((e) => e.id === params.id);
-  if (!event) notFound();
+function dbToEvent(db: DbEvent): Event {
+  return {
+    id: db.slug || db.id,
+    name: db.name,
+    nameTamil: db.name_tamil,
+    image: db.image_url || "/images/events/kalaignan.jpg",
+    description: db.description ?? "",
+    descriptionTamil: db.description_tamil ?? "",
+    date: db.date,
+    dateTamil: db.date_tamil,
+    details: db.details ?? "",
+    detailsTamil: db.details_tamil ?? "",
+  };
+}
 
+export default function EventDetailPage({ params }: Params) {
   const { lang } = useLanguage();
   const c = content.events;
+
+  const [event, setEvent] = useState<Event | null>(
+    staticEvents.find((e) => e.id === params.id) ?? null
+  );
+  const [loading, setLoading] = useState(!event);
+  const [notFoundFlag, setNotFoundFlag] = useState(false);
+
+  // If not found in static data, fetch from Supabase
+  useEffect(() => {
+    if (event) return;
+    fetch("/api/events")
+      .then((r) => r.json())
+      .then((json) => {
+        const dbEvents: DbEvent[] = json.events ?? [];
+        const match = dbEvents.find(
+          (e) => e.slug === params.id || e.id === params.id
+        );
+        if (match) {
+          setEvent(dbToEvent(match));
+        } else {
+          setNotFoundFlag(true);
+        }
+      })
+      .catch(() => setNotFoundFlag(true))
+      .finally(() => setLoading(false));
+  }, [params.id, event]);
+
+  if (notFoundFlag) notFound();
+
+  if (loading || !event) {
+    return (
+      <div className="pt-16 md:pt-20 min-h-screen bg-cream flex items-center justify-center">
+        <p className="font-body text-ink-light animate-pulse text-sm">
+          நிகழ்வை ஏற்றுகிறது… Loading event…
+        </p>
+      </div>
+    );
+  }
 
   const name    = lang === "ta" ? event.nameTamil    : event.name;
   const details = lang === "ta" ? event.detailsTamil : event.details;
@@ -49,11 +101,13 @@ export default function EventDetailPage({ params }: Params) {
           {t(c.back, lang)}
         </Link>
 
-        <p className="font-body text-lg text-ink-light leading-relaxed mb-8 italic border-l-4 border-gold pl-4">{desc}</p>
+        {desc && (
+          <p className="font-body text-lg text-ink-light leading-relaxed mb-8 italic border-l-4 border-gold pl-4">{desc}</p>
+        )}
 
         <div className="font-body text-ink leading-loose">
           {details.split("\n\n").map((para, i) => (
-            <p key={i} className="mb-5 text-base md:text-lg">{para}</p>
+            <p key={i} className="mb-5 text-base md:text-lg whitespace-pre-line">{para}</p>
           ))}
         </div>
 
