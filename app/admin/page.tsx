@@ -26,7 +26,7 @@ function Field({ label, sublabel, children }: { label: string; sublabel?: string
   );
 }
 
-const inputCls = "w-full rounded-xl border border-cream-dark bg-cream px-4 py-2.5 text-ink font-body text-sm focus:outline-none focus:ring-2 focus:ring-gold/60 focus:border-gold transition-all duration-200";
+const inputCls = "w-full rounded-xl border border-cream-dark bg-cream px-4 py-2.5 text-ink font-body text-base focus:outline-none focus:ring-2 focus:ring-gold/60 focus:border-gold transition-all duration-200";
 const textareaCls = `${inputCls} resize-y min-h-[120px]`;
 
 // ── Main Admin Page ───────────────────────────────────────────────────────────

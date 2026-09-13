@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Baloo_Thambi_2, Poppins } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -24,6 +24,13 @@ const poppins = Poppins({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  // Do NOT set maximumScale=1 (blocks accessibility zoom)
+  // Instead we fix input font-sizes to ≥16px to prevent iOS auto-zoom
+};
+
 export const metadata: Metadata = {
   title: {
     template: "%s | மாதவம் — Tamil Club",
@@ -32,6 +39,7 @@ export const metadata: Metadata = {
   description:
     "மாதவம் — மாணவர்கள் தமிழ் வளர் மன்றம். தமிழ் மொழி, கலை மற்றும் பாரம்பரியத்தை வளர்க்கும் கல்லூரி தமிழ் மன்றம்.",
   keywords: ["தமிழ் மன்றம்", "மாதவம்", "Tamil club", "Maathavam", "Tamil culture"],
+  metadataBase: new URL("https://maathavam.vercel.app"),
   openGraph: {
     title: "மாதவம் — மாணவர்கள் தமிழ் வளர் மன்றம்",
     description: "தமிழ் மொழி, கலை மற்றும் பாரம்பரியத்தை வளர்க்கும் கல்லூரி தமிழ் மன்றம்.",
