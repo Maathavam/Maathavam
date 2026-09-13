@@ -39,6 +39,7 @@ export default function Footer() {
           style={{ marginBottom: "-2px" }}
         >
           <motion.path
+            initial={{ d: "M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z" }}
             d="M0,32 C240,64 480,0 720,32 C960,64 1200,0 1440,32 L1440,64 L0,64 Z"
             fill="#4A0F1C"
             animate={{
