@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    // Allow local images (no external domains needed for placeholder images)
-    unoptimized: false,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "tksetihheyecnxhmocty.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+    ],
   },
-  // Strict mode for better development experience
   reactStrictMode: true,
 };
 

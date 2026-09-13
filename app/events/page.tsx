@@ -1,14 +1,48 @@
 "use client";
 
-import { events } from "@/data/events";
+import { useEffect, useState } from "react";
+import { events as staticEvents, Event } from "@/data/events";
+import { DbEvent } from "@/lib/supabase";
 import EventCard from "@/components/EventCard";
 import SectionWrapper from "@/components/SectionWrapper";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { content, t } from "@/data/content";
 
+// Convert a Supabase DbEvent → local Event shape
+function dbToEvent(db: DbEvent): Event {
+  return {
+    id: db.slug || db.id,
+    name: db.name,
+    nameTamil: db.name_tamil,
+    image: db.image_url || "/images/events/kalaignan.jpg",
+    description: db.description,
+    descriptionTamil: db.description_tamil,
+    date: db.date,
+    dateTamil: db.date_tamil,
+    details: db.details,
+    detailsTamil: db.details_tamil,
+  };
+}
+
 export default function EventsPage() {
   const { lang } = useLanguage();
   const c = content.events;
+  const [dbEvents, setDbEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/events")
+      .then((r) => r.json())
+      .then((json) => {
+        const converted = (json.events as DbEvent[] ?? []).map(dbToEvent);
+        setDbEvents(converted);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  // DB events first (newest), then static events
+  const allEvents = [...dbEvents, ...staticEvents];
 
   return (
     <div className="pt-16 md:pt-20">
@@ -24,8 +58,13 @@ export default function EventsPage() {
 
       <SectionWrapper className="bg-cream kolam-bg py-16 px-4 sm:px-6 lg:px-8" id="events-grid">
         <div className="max-w-6xl mx-auto">
+          {loading && (
+            <p className="text-center text-ink-light font-body text-sm mb-6 animate-pulse">
+              நிகழ்வுகளை ஏற்றுகிறது… Loading events…
+            </p>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {events.map((event, i) => (
+            {allEvents.map((event, i) => (
               <EventCard key={event.id} event={event} index={i} />
             ))}
           </div>
